@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Talep Oluştur</title>
+  <style>
+    body { font-family: Helvetica, sans-serif; background: #111; color: white; padding: 20px; }
+    input, button { padding: 10px; border-radius: 5px; border: none; }
+    input { background: #333; color: white; margin-bottom: 10px; width: 250px;}
+    button { background: #5f27cd; color: white; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Ödeme Talebi Oluştur</h1>
+  <form id="requestForm">
+    <input type="text" id="tedarikci" placeholder="Tedarikçi Firma" required><br>
+    <input type="text" id="iban" placeholder="IBAN" required><br>
+    <input type="number" id="tutar" placeholder="Tutar" required><br>
+    <button type="submit">Gönder</button>
+  </form>
+
+  <script>
+    document.getElementById('requestForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const tedarikci = document.getElementById('tedarikci').value;
+      const iban = document.getElementById('iban').value;
+      const tutar = document.getElementById('tutar').value;
+
+      const res = await fetch('http://localhost:3000/api/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tedarikci, iban, tutar })
+      });
+
+      if (res.ok) {
+        alert('Talep gönderildi!');
+      } else {
+        alert('Hata oluştu.');
+      }
+    });
+  </script>
+</body>
+</html>

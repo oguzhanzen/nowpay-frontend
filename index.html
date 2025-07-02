@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>NowPay Giriş</title>
+  <style>
+    body { font-family: Helvetica, sans-serif; background: #1a1a1a; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+    form { display: flex; flex-direction: column; width: 300px; gap: 10px; }
+    input, button { padding: 10px; border-radius: 5px; border: none; }
+    input { background: #333; color: white; }
+    button { background: #5f27cd; color: white; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>NowPay Giriş</h1>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="E-posta" required />
+    <input type="password" id="password" placeholder="Şifre" required />
+    <button type="submit">Giriş Yap</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert('Giriş başarılı! Rol: ' + data.role);
+        if (data.role === 'admin') {
+          window.location.href = 'admin.html';
+        } else {
+          window.location.href = 'user.html';
+        }
+      } else {
+        alert('Hatalı giriş!');
+      }
+    });
+  </script>
+</body>
+</html>

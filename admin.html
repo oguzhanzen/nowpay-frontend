@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Paneli</title>
+  <style>
+    body { font-family: Helvetica, sans-serif; background: #111; color: white; padding: 20px; }
+    button { padding: 10px 20px; border: none; border-radius: 5px; background: #5f27cd; color: white; cursor: pointer; }
+    ul { margin-top: 20px; }
+    li { margin-bottom: 10px; background: #222; padding: 10px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Admin Paneli</h1>
+  <button onclick="getRequests()">Talepleri Göster</button>
+  <ul id="requestList"></ul>
+
+  <script>
+    async function getRequests() {
+      const res = await fetch('http://localhost:3000/api/requests');
+      const data = await res.json();
+      const list = document.getElementById('requestList');
+      list.innerHTML = '';
+      data.forEach(req => {
+        const li = document.createElement('li');
+        li.textContent = JSON.stringify(req);
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
