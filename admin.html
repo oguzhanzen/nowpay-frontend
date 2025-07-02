@@ -17,7 +17,7 @@
 
   <script>
     async function getRequests() {
-      const res = await fetch('http://localhost:3000/api/requests');
+      const res = await fetch('https://nowpay-backend-oguzhanzen.vercel.app/api/request');
       const data = await res.json();
       const list = document.getElementById('requestList');
       list.innerHTML = '';

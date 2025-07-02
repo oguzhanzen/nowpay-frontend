@@ -26,7 +26,7 @@
       const iban = document.getElementById('iban').value;
       const tutar = document.getElementById('tutar').value;
 
-      const res = await fetch('http://localhost:3000/api/request', {
+      const res = await fetch('https://nowpay-backend-oguzhanzen.vercel.app/api/requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tedarikci, iban, tutar })
