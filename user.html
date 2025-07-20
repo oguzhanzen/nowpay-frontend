@@ -2,87 +2,87 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Talep Oluştur</title>
+  <title>NowPay Giriş</title>
   <style>
-    body { font-family: Helvetica, sans-serif; background: #111; color: white; padding: 20px; }
-    input, button { padding: 10px; border-radius: 5px; border: none; }
-    input { background: #333; color: white; margin-bottom: 10px; width: 250px;}
+    body { 
+      font-family: Helvetica, sans-serif; 
+      background: #1a1a1a; 
+      color: white; 
+      margin:0; padding:0;
+      font-size: 13px; 
+    }
+    h1 { font-size: 20px; }
+    form { 
+      display: flex; 
+      flex-direction: column; 
+      width: 250px; 
+      gap: 8px;
+      margin: 40px auto;
+    }
+    input, button { 
+      padding: 7px; 
+      border-radius: 4px; 
+      border: none; 
+      font-size: 13px;
+    }
+    input { background: #333; color: white; }
     button { background: #5f27cd; color: white; cursor: pointer; }
-    table { margin-top: 20px; border-collapse: collapse; width: 100%; background: #222; border-radius: 10px; overflow: hidden; }
-    th, td { padding: 10px; border-bottom: 1px solid #333; }
-    th { background: #333; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover { background: #2a2a2a; }
   </style>
 </head>
 <body>
-  <h1>Ödeme Talebi Oluştur</h1>
-  <form id="requestForm">
-    <input type="text" id="tedarikci" placeholder="Tedarikçi Firma" required><br>
-    <input type="text" id="iban" placeholder="IBAN" required><br>
-    <input type="number" id="tutar" placeholder="Tutar" required><br>
-    <button type="submit">Gönder</button>
+
+<!-- HEADER -->
+<div style="width:100%; background:#181818; border-bottom:1px solid #444; display:flex; align-items:center; padding:8px 20px 8px 10px; box-sizing:border-box; position:sticky; top:0; z-index:10;">
+  <img src="https://nowhappens.com/logo.svg" alt="Now" style="height:30px; margin-right:16px;">
+  <div style="flex:1; text-align:center; font-size:16px; font-weight:bold; letter-spacing:0.3px;">NowPay Ödeme Talep ve Takip Sistemi</div>
+  <div id="header-date" style="color:#aaa; font-size:12px; font-weight:normal; min-width:90px; text-align:right;"></div>
+</div>
+<script>
+  function setDate() {
+    const d = new Date();
+    document.getElementById('header-date').innerText = d.toLocaleDateString('tr-TR');
+  }
+  setDate();
+</script>
+
+  <h1 style="text-align:center; margin-top:30px;">NowPay Giriş</h1>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="E-posta" required />
+    <input type="password" id="password" placeholder="Şifre" required />
+    <button type="submit">Giriş Yap</button>
   </form>
 
-  <h2>Taleplerim</h2>
-  <div id="requestsTable"></div>
+<!-- FOOTER -->
+<div style="width:100%; background:#222; color:#aaa; text-align:center; font-size:12px; padding:12px 0; border-top:1px solid #333; margin-top:40px;">
+  NowPay © 2024. Tüm hakları saklıdır. Webmaster: oguzhanzen
+</div>
 
-  <script>
-    const userEmail = localStorage.getItem('userEmail');
+<script>
+  const form = document.getElementById('loginForm');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-    async function fetchMyRequests() {
-      const res = await fetch('https://nowpay-backend.onrender.com/api/requests');
-      const data = await res.json();
-      // Kendi emailiyle yapılan talepleri filtrele
-      const myRequests = data.filter(r => r.email === userEmail);
-      let html = `<table>
-        <tr>
-          <th>#</th>
-          <th>Tedarikçi</th>
-          <th>IBAN</th>
-          <th>Tutar</th>
-          <th>Durum</th>
-        </tr>`;
-      if (myRequests.length === 0) {
-        html += `<tr><td colspan="5">Henüz talebin yok</td></tr>`;
-      } else {
-        myRequests.forEach((req, idx) => {
-          html += `<tr>
-            <td>${idx + 1}</td>
-            <td>${req.tedarikci || '-'}</td>
-            <td>${req.iban || '-'}</td>
-            <td>${req.tutar || '-'}</td>
-            <td>${req.status || 'Bekliyor'}</td>
-          </tr>`;
-        });
-      }
-      html += `</table>`;
-      document.getElementById('requestsTable').innerHTML = html;
-    }
-
-    document.getElementById('requestForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const tedarikci = document.getElementById('tedarikci').value;
-      const iban = document.getElementById('iban').value;
-      const tutar = document.getElementById('tutar').value;
-      const email = userEmail;
-
-      const res = await fetch('https://nowpay-backend.onrender.com/api/request', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tedarikci, iban, tutar, email })
-      });
-
-      if (res.ok) {
-        alert('Talep gönderildi!');
-        fetchMyRequests();
-      } else {
-        alert('Hata oluştu.');
-      }
+    const res = await fetch('https://nowpay-backend.onrender.com/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
     });
 
-    // Sayfa yüklenince kendi taleplerini otomatik getir
-    window.onload = fetchMyRequests;
-  </script>
+    const data = await res.json();
+    if (data.success) {
+      alert('Giriş başarılı! Rol: ' + data.role);
+      if (data.role === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        localStorage.setItem('userEmail', email); // Kullanıcı emailini kaydet!
+        window.location.href = 'user.html';
+      }
+    } else {
+      alert('Hatalı giriş!');
+    }
+  });
+</script>
 </body>
-</html>
+</h
