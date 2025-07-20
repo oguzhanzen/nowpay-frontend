@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Kontrol Paneli</title>
+  <title>NowPay Kontrol Paneli</title>
   <style>
     html, body { height: 100%; margin:0; padding:0;}
     body {
@@ -24,71 +24,88 @@
       flex: 1; display: flex; flex-direction: row; width: 100vw; box-sizing: border-box; min-height:0;
       background: #18151c;
     }
-    .sol {
-      min-width: 320px; max-width: 370px; width: 28vw; background: #18151c;
-      display: flex; flex-direction: column; align-items: center; border-right: 1px solid #232023; padding: 0 0 30px 0;
-      position: relative;
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      width: 100%;
+      margin-top: 38px;
+      gap: 0;
     }
-    .sol-content { width: 95%; max-width: 340px; margin: 0 auto; display: flex; flex-direction: column; min-height: 90vh;}
-    .panel-title {
-      text-align: left; font-size: 18px; font-weight: bold; margin: 32px 0 22px 0; letter-spacing: .5px;
-      color: #a185e7;
+    .form-col {
+      min-width: 340px; max-width: 380px; width: 30vw; background: #18151c;
+      display: flex; flex-direction: column; align-items: flex-end;
+      border-right: 1px solid #232023;
+      box-sizing: border-box;
+      padding-right: 0;
     }
-    form { width: 100%; margin: 0 auto 30px auto; }
-    label { font-size:13px; margin-bottom: 3px; display:block;}
-    select, input, textarea, button {
-      font-family: Helvetica, Arial, sans-serif !important; font-size: 13px; padding: 8px; border-radius: 6px; border: none; margin-bottom:10px; width: 100%; box-sizing: border-box; }
-    select, input, textarea { background: #23202a; color: #e2e1e6; }
+    .form-inner {
+      width: 95%; max-width: 350px;
+    }
+    .table-col {
+      flex: 1;
+      background: #18151c;
+      padding-left: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .form-label, .table-header {
+      font-size: 17px; font-weight: bold; letter-spacing: .5px;
+      color: #7b65aa; margin-bottom: 0;
+    }
+    .form-label {margin-left:3px;}
+    .form-gap { height: 15px; }
+    .table-gap { height: 16px; }
+    .form-select, .form-input {
+      width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 6px; border: none;
+      font-size: 13px; background: #23202a; color: #e2e1e6;
+      box-sizing: border-box;
+    }
     textarea { resize: vertical; min-height: 38px; max-height: 90px; }
-    button { background: #6b3fc9; color: #e2e1e6; cursor: pointer; margin-top: 0; margin-bottom: 0; width:100%; transition:.15s;}
-    button:hover { background: #4b297e; color: #fff;}
+    .panel-btn {
+      background: #7b65aa; color: #e2e1e6; cursor: pointer; width:100%; transition:.15s;
+      border-radius:6px; border:none; font-size:13px; font-weight:bold; padding: 11px 0;
+      margin-bottom: 0; margin-top: 0;
+    }
+    .panel-btn:hover { background: #625183; color: #fff;}
     .footer-actions {
-      margin-top: auto;
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
       gap: 9px;
-      padding-bottom: 14px;
     }
     .logout-btn, .clear-btn {
-      min-width: 100%; font-size:13px;
       background: #282236;
       color: #e2d3fd;
       font-weight: bold;
       border: none;
       border-radius: 6px;
       padding: 11px 0;
-      margin-bottom: 0;
+      min-width: 100%;
       transition: background .17s;
+      font-size: 13px;
     }
     .logout-btn:hover, .clear-btn:hover { background: #322e3e; color: #fff;}
-    .space-20 { height:20px; }
-    .sag {
-      flex: 1; min-width:0; background: #18151c; padding: 0 22px;
-      display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
-      position: relative;
+    .table-title {
+      font-size: 17px; font-weight: bold; letter-spacing: .5px;
+      color: #7b65aa; margin-bottom: 0;
     }
-    .table-section {
+    table {
+      border-collapse: collapse;
       width: 100%;
-      position: absolute;
-      left: 0;
-      top: 32px;
-      padding-top: 0;
-      padding-right: 22px;
-      box-sizing: border-box;
+      background: #23202a;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom:30px;
+      font-size: 11.5px;
     }
-    table { border-collapse: collapse; width: 100%; background: #23202a; border-radius: 10px; overflow: hidden; margin-bottom:30px;}
-    th, td { padding: 7px 5px; border-bottom: 1px solid #292231; font-size:13px; text-align: center;}
-    th { background: #211d25; color: #a185e7;}
+    th, td { padding: 6px 4px; border-bottom: 1px solid #292231; text-align: center;}
+    th { background: #211d25; color: #7b65aa;}
     tr:last-child td { border-bottom: none; }
     tr:hover { background: #222;}
     td.left { text-align: left; }
     #requestsTable { width: 100%; overflow-x:auto; margin:auto;}
-    h2 {
-      font-size: 18px; margin: 0 0 10px 0;
-      color: #a185e7;
-      font-weight: bold;
-      letter-spacing: .5px;
-    }
     footer {
       width:100%; background:#18151c; color:#aea6bf; font-size:12px;
       border-top:1px solid #252028; margin-top:auto; padding:0;
@@ -101,11 +118,12 @@
       margin: 0 auto;
       box-sizing: border-box;
       display: flex;
-      justify-content: center;
+      flex-direction: row;
       align-items: center;
       position: relative;
       height: 100%;
       min-height: 32px;
+      justify-content: center;
     }
     .footer-center {
       text-align: center;
@@ -114,7 +132,7 @@
     }
     .footer-right {
       position: absolute;
-      right: 22px;
+      right: 0;
       top: 0;
       height: 100%;
       display: flex;
@@ -122,34 +140,33 @@
       color: #b7aed0;
       font-size: 12px;
       white-space: nowrap;
+      justify-content: flex-end;
+      padding-right: 22px;
     }
     .webmaster-link {
-      color: #a185e7;
+      color: #7b65aa;
       text-decoration: underline dotted;
       font-weight: bold;
       margin-left: 3px;
       transition: color 0.17s;
     }
     .webmaster-link:hover {
-      color: #f9cbff;
+      color: #d1bfff;
     }
-    @media (max-width:900px) {
-      main { flex-direction: column;}
-      .sol { max-width: none; width:100vw; border-right:none; border-bottom: 1px solid #232023; min-height:unset;}
-      .sag { padding: 0 7px;}
-      .table-section {position: static; padding-top:20px;}
+    @media (max-width:1100px) {
+      .flex-row {flex-direction: column;}
+      .form-col { width:100vw; border-right:none; border-bottom: 1px solid #232023; min-height:unset;}
+      .table-col { padding-left: 0; }
     }
     @media (max-width:600px){
-      form{padding:0;max-width:100vw;}
-      table{font-size:12px;}
+      .form-col, .form-inner {max-width:99vw;}
+      table{font-size:10px;}
       .logout-btn, .clear-btn { font-size:12px; padding:9px 0;}
       .logo{height:24px;}
       .header-title{font-size:14px;}
-      .panel-title, h2 {font-size: 15px;}
-      .table-section{padding-right:5px;}
       .footer-content {justify-content: center;}
       .footer-center {text-align:center;}
-      .footer-right {right:8px;}
+      .footer-right {right:8px; padding-right: 0;}
     }
   </style>
 </head>
@@ -175,43 +192,43 @@
   }
 </script>
 <main>
-  <div class="sol">
-    <div class="sol-content">
-      <div class="panel-title">Kontrol Paneli</div>
-      <form id="requestForm">
-        <label for="tedarikci">Tedarikçi Firma</label>
-        <select id="tedarikci" required>
+  <div class="flex-row">
+    <!-- Sol Panel -->
+    <div class="form-col">
+      <div class="form-inner">
+        <span class="form-label">Tedarikçi Firma</span>
+        <div class="form-gap"></div>
+        <select id="tedarikci" class="form-select" required>
           <option value="">Seçiniz</option>
         </select>
-        <input type="text" id="newTedarikci" placeholder="Yeni tedarikçi (gerekirse)" style="display:none;" />
-        <label for="projeKodu">Proje Kodu</label>
-        <input type="text" id="projeKodu" placeholder="Proje Kodu" required>
-        <label for="kategori">Kategori</label>
-        <select id="kategori" required>
+        <input type="text" id="newTedarikci" class="form-input" placeholder="Yeni tedarikçi (gerekirse)" style="display:none;" />
+        <label for="projeKodu" class="form-label" style="margin-top:13px;">Proje Kodu</label>
+        <input type="text" id="projeKodu" class="form-input" placeholder="Proje Kodu" required>
+        <label for="kategori" class="form-label" style="margin-top:13px;">Kategori</label>
+        <select id="kategori" class="form-select" required>
           <option value="">Kategori seç</option>
           <option value="üretim">Üretim</option>
           <option value="prodüksiyon">Prodüksiyon</option>
           <option value="catering">Catering</option>
           <option value="cast">Cast</option>
         </select>
-        <label for="iban">IBAN</label>
-        <input type="text" id="iban" placeholder="IBAN" required>
-        <label for="tutar">Tutar</label>
-        <input type="number" id="tutar" placeholder="Tutar" required>
-        <label for="aciklama">Fatura Açıklama</label>
-        <textarea id="aciklama" placeholder="Fatura açıklaması" required></textarea>
-        <button type="submit">Gönder</button>
-      </form>
-      <div class="space-20"></div>
-      <div class="footer-actions">
-        <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
-        <button class="clear-btn" onclick="clearRequests()">Talepleri Temizle</button>
+        <label for="iban" class="form-label" style="margin-top:13px;">IBAN</label>
+        <input type="text" id="iban" class="form-input" placeholder="IBAN" required>
+        <label for="tutar" class="form-label" style="margin-top:13px;">Tutar</label>
+        <input type="number" id="tutar" class="form-input" placeholder="Tutar" required>
+        <label for="aciklama" class="form-label" style="margin-top:13px;">Fatura Açıklama</label>
+        <textarea id="aciklama" class="form-input" placeholder="Fatura açıklaması" required></textarea>
+        <button type="submit" class="panel-btn" id="submitBtn">Gönder</button>
+        <div class="footer-actions">
+          <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+          <button class="clear-btn" onclick="clearRequests()">Talepleri Temizle</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="sag">
-    <div class="table-section">
-      <h2>Taleplerim</h2>
+    <!-- Sağ Panel -->
+    <div class="table-col">
+      <span class="table-header">Taleplerim</span>
+      <div class="table-gap"></div>
       <div id="requestsTable"></div>
     </div>
   </div>
@@ -226,7 +243,7 @@
   </div>
 </footer>
 <script>
-  // Local tedarikçi listesi (RAM içi, kalıcı değil)
+  // Local tedarikçi listesi
   let tedarikciler = JSON.parse(localStorage.getItem('tedarikciler') || '[]');
   const userEmail = localStorage.getItem('userEmail');
   function fillTedarikciOptions() {
@@ -258,7 +275,7 @@
       ibanInput.readOnly = !!t;
     }
   });
-  document.getElementById('requestForm').addEventListener('submit', async (e) => {
+  document.getElementById('submitBtn').addEventListener('click', async (e) => {
     e.preventDefault();
     let tedarikci = document.getElementById('tedarikci').value;
     const newTedarikci = document.getElementById('newTedarikci').value.trim();
@@ -275,10 +292,12 @@
       localStorage.setItem('tedarikciler', JSON.stringify(tedarikciler));
       fillTedarikciOptions();
     }
+    // Otomatik tarih ekle frontend'de, backend'de yoksa:
+    const createdAt = new Date().toISOString();
     const res = await fetch('https://nowpay-backend.onrender.com/api/request', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tedarikci, iban, tutar, email, projeKodu, kategori, aciklama })
+      body: JSON.stringify({ tedarikci, iban, tutar, email, projeKodu, kategori, aciklama, createdAt })
     });
     if (res.ok) {
       document.getElementById('requestForm').reset();
@@ -311,7 +330,7 @@
       html += `<tr><td colspan="8" class="left">Henüz talebin yok</td></tr>`;
     } else {
       myRequests.forEach((req) => {
-        // Oluşturma tarihi: backend'den "createdAt" varsa onu göster, yoksa boş
+        // Tarih önce backend, sonra frontend createdAt
         let tarih = '-';
         if(req.createdAt) {
           const d = new Date(req.createdAt);
