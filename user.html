@@ -8,6 +8,11 @@
     input, button { padding: 10px; border-radius: 5px; border: none; }
     input { background: #333; color: white; margin-bottom: 10px; width: 250px;}
     button { background: #5f27cd; color: white; cursor: pointer; }
+    table { margin-top: 20px; border-collapse: collapse; width: 100%; background: #222; border-radius: 10px; overflow: hidden; }
+    th, td { padding: 10px; border-bottom: 1px solid #333; }
+    th { background: #333; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: #2a2a2a; }
   </style>
 </head>
 <body>
@@ -19,25 +24,65 @@
     <button type="submit">Gönder</button>
   </form>
 
+  <h2>Taleplerim</h2>
+  <div id="requestsTable"></div>
+
   <script>
+    const userEmail = localStorage.getItem('userEmail');
+
+    async function fetchMyRequests() {
+      const res = await fetch('https://nowpay-backend.onrender.com/api/requests');
+      const data = await res.json();
+      // Kendi emailiyle yapılan talepleri filtrele
+      const myRequests = data.filter(r => r.email === userEmail);
+      let html = `<table>
+        <tr>
+          <th>#</th>
+          <th>Tedarikçi</th>
+          <th>IBAN</th>
+          <th>Tutar</th>
+          <th>Durum</th>
+        </tr>`;
+      if (myRequests.length === 0) {
+        html += `<tr><td colspan="5">Henüz talebin yok</td></tr>`;
+      } else {
+        myRequests.forEach((req, idx) => {
+          html += `<tr>
+            <td>${idx + 1}</td>
+            <td>${req.tedarikci || '-'}</td>
+            <td>${req.iban || '-'}</td>
+            <td>${req.tutar || '-'}</td>
+            <td>${req.status || 'Bekliyor'}</td>
+          </tr>`;
+        });
+      }
+      html += `</table>`;
+      document.getElementById('requestsTable').innerHTML = html;
+    }
+
     document.getElementById('requestForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const tedarikci = document.getElementById('tedarikci').value;
       const iban = document.getElementById('iban').value;
       const tutar = document.getElementById('tutar').value;
+      const email = userEmail;
 
       const res = await fetch('https://nowpay-backend.onrender.com/api/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tedarikci, iban, tutar })
+        body: JSON.stringify({ tedarikci, iban, tutar, email })
       });
 
       if (res.ok) {
         alert('Talep gönderildi!');
+        fetchMyRequests();
       } else {
         alert('Hata oluştu.');
       }
     });
+
+    // Sayfa yüklenince kendi taleplerini otomatik getir
+    window.onload = fetchMyRequests;
   </script>
 </body>
 </html>
