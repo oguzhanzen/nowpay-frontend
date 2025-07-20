@@ -8,65 +8,148 @@
     body {
       min-height: 100vh;
       font-family: Helvetica, Arial, sans-serif !important;
-      background: #111; color: white; font-size: 13px;
+      background: #18151c;
+      color: #e2e1e6;
+      font-size: 13px;
       display: flex; flex-direction: column;
     }
     .header {
-      width:100%; background:#181818; border-bottom:1px solid #444; display:flex;
+      width:100%; background:#18151c; border-bottom:1px solid #252028; display:flex;
       align-items:center; padding:8px 20px 8px 10px; box-sizing:border-box; position:sticky; top:0; z-index:10;
     }
     .logo {height:32px; margin-right:16px;}
     .header-title {flex:1; text-align:center; font-size:16px; font-weight:bold; letter-spacing:0.3px;}
-    .header-date {color:#aaa; font-size:12px; font-weight:normal; min-width:90px; text-align:right;}
+    .header-date {color:#aea6bf; font-size:12px; font-weight:normal; min-width:90px; text-align:right;}
     main {
       flex: 1; display: flex; flex-direction: row; width: 100vw; box-sizing: border-box; min-height:0;
-      gap: 0;
+      background: #18151c;
     }
     .sol {
-      min-width: 320px; max-width: 370px; width: 28vw; background: #161616;
-      display: flex; flex-direction: column; align-items: center; border-right: 1px solid #222; padding: 0 0 30px 0;
+      min-width: 320px; max-width: 370px; width: 28vw; background: #18151c;
+      display: flex; flex-direction: column; align-items: center; border-right: 1px solid #232023; padding: 0 0 30px 0;
+      position: relative;
     }
-    .sol-content { width: 95%; max-width: 340px; margin: 0 auto;}
+    .sol-content { width: 95%; max-width: 340px; margin: 0 auto; display: flex; flex-direction: column; min-height: 90vh;}
     .panel-title {
       text-align: left; font-size: 18px; font-weight: bold; margin: 32px 0 22px 0; letter-spacing: .5px;
-      color: #d3c1ff;
+      color: #a185e7;
     }
-    form { width: 100%; margin: 0 auto 18px auto;}
+    form { width: 100%; margin: 0 auto 30px auto; }
     label { font-size:13px; margin-bottom: 3px; display:block;}
     select, input, textarea, button {
       font-family: Helvetica, Arial, sans-serif !important; font-size: 13px; padding: 8px; border-radius: 6px; border: none; margin-bottom:10px; width: 100%; box-sizing: border-box; }
-    select, input, textarea { background: #222; color: white; }
+    select, input, textarea { background: #23202a; color: #e2e1e6; }
     textarea { resize: vertical; min-height: 38px; max-height: 90px; }
-    button { background: #5f27cd; color: white; cursor: pointer; margin-top: 0; margin-bottom: 10px; width:100%; }
-    .button-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 5px;}
-    .logout-btn, .clear-btn { min-width: 100%; font-size:13px; }
-    .logout-btn:hover, .clear-btn:hover { background: #773ecf; }
-    .sag {
-      flex: 1; min-width:0; padding: 30px 22px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
+    button { background: #6b3fc9; color: #e2e1e6; cursor: pointer; margin-top: 0; margin-bottom: 0; width:100%; transition:.15s;}
+    button:hover { background: #4b297e; color: #fff;}
+    .footer-actions {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      padding-bottom: 14px;
     }
-    table { border-collapse: collapse; width: 100%; background: #222; border-radius: 10px; overflow: hidden; margin-bottom:30px;}
-    th, td { padding: 7px 5px; border-bottom: 1px solid #333; font-size:13px; text-align: center;}
-    th { background: #333; }
+    .logout-btn, .clear-btn {
+      min-width: 100%; font-size:13px;
+      background: #282236;
+      color: #e2d3fd;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      padding: 11px 0;
+      margin-bottom: 0;
+      transition: background .17s;
+    }
+    .logout-btn:hover, .clear-btn:hover { background: #322e3e; color: #fff;}
+    .space-20 { height:20px; }
+    .sag {
+      flex: 1; min-width:0; background: #18151c; padding: 0 22px;
+      display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
+      position: relative;
+    }
+    .table-section {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 32px;
+      padding-top: 0;
+      padding-right: 22px;
+      box-sizing: border-box;
+    }
+    table { border-collapse: collapse; width: 100%; background: #23202a; border-radius: 10px; overflow: hidden; margin-bottom:30px;}
+    th, td { padding: 7px 5px; border-bottom: 1px solid #292231; font-size:13px; text-align: center;}
+    th { background: #211d25; color: #a185e7;}
     tr:last-child td { border-bottom: none; }
-    tr:hover { background: #252525; }
+    tr:hover { background: #222;}
     td.left { text-align: left; }
     #requestsTable { width: 100%; overflow-x:auto; margin:auto;}
-    h2 { font-size: 18px; margin: 0 0 10px 0;}
+    h2 {
+      font-size: 18px; margin: 0 0 10px 0;
+      color: #a185e7;
+      font-weight: bold;
+      letter-spacing: .5px;
+    }
     footer {
-      width:100%; background:#222; color:#aaa; text-align:center; font-size:12px;
-      padding:12px 0; border-top:1px solid #333; margin-top:auto;
+      width:100%; background:#18151c; color:#aea6bf; font-size:12px;
+      border-top:1px solid #252028; margin-top:auto; padding:0;
+      min-height: 32px;
+      position: relative;
+    }
+    .footer-content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 100%;
+      min-height: 32px;
+    }
+    .footer-center {
+      text-align: center;
+      flex: 1;
+      font-size: 13px;
+    }
+    .footer-right {
+      position: absolute;
+      right: 22px;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      color: #b7aed0;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .webmaster-link {
+      color: #a185e7;
+      text-decoration: underline dotted;
+      font-weight: bold;
+      margin-left: 3px;
+      transition: color 0.17s;
+    }
+    .webmaster-link:hover {
+      color: #f9cbff;
     }
     @media (max-width:900px) {
       main { flex-direction: column;}
-      .sol { max-width: none; width:100vw; border-right:none; border-bottom: 1px solid #222; min-height:unset;}
-      .sag { padding: 22px 7px;}
+      .sol { max-width: none; width:100vw; border-right:none; border-bottom: 1px solid #232023; min-height:unset;}
+      .sag { padding: 0 7px;}
+      .table-section {position: static; padding-top:20px;}
     }
     @media (max-width:600px){
       form{padding:0;max-width:100vw;}
       table{font-size:12px;}
-      .logout-btn, .clear-btn { font-size:12px; padding:6px 10px;}
+      .logout-btn, .clear-btn { font-size:12px; padding:9px 0;}
       .logo{height:24px;}
       .header-title{font-size:14px;}
+      .panel-title, h2 {font-size: 15px;}
+      .table-section{padding-right:5px;}
+      .footer-content {justify-content: center;}
+      .footer-center {text-align:center;}
+      .footer-right {right:8px;}
     }
   </style>
 </head>
@@ -88,7 +171,7 @@
   }
   function clearRequests() {
     localStorage.setItem('clearedRequests', '1');
-    fetchMyRequests(); // Listeyi anında güncelle!
+    fetchMyRequests();
   }
 </script>
 <main>
@@ -119,19 +202,28 @@
         <textarea id="aciklama" placeholder="Fatura açıklaması" required></textarea>
         <button type="submit">Gönder</button>
       </form>
-      <div class="button-row">
+      <div class="space-20"></div>
+      <div class="footer-actions">
         <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
         <button class="clear-btn" onclick="clearRequests()">Talepleri Temizle</button>
       </div>
     </div>
   </div>
   <div class="sag">
-    <h2>Taleplerim</h2>
-    <div id="requestsTable"></div>
+    <div class="table-section">
+      <h2>Taleplerim</h2>
+      <div id="requestsTable"></div>
+    </div>
   </div>
 </main>
 <footer>
-  NowPay © 2024. Tüm hakları saklıdır. Webmaster: oguzhanzen
+  <div class="footer-content">
+    <span class="footer-center">NowPay © 2024. Tüm hakları saklıdır.</span>
+    <span class="footer-right">
+      webmaster: 
+      <a href="https://www.instagram.com/oguzhanzen" target="_blank" rel="noopener" class="webmaster-link">oguzhanzen</a>
+    </span>
+  </div>
 </footer>
 <script>
   // Local tedarikçi listesi (RAM içi, kalıcı değil)
@@ -190,7 +282,7 @@
     });
     if (res.ok) {
       document.getElementById('requestForm').reset();
-      localStorage.removeItem('clearedRequests'); // Yeni talep sonrası flag'i kaldır
+      localStorage.removeItem('clearedRequests');
       fetchMyRequests();
     } else {
       alert('Hata oluştu.');
@@ -213,11 +305,18 @@
         <th>Tutar</th>
         <th>Durum</th>
         <th>Açıklama</th>
+        <th>Oluşturma Tarihi</th>
       </tr>`;
     if (myRequests.length === 0) {
-      html += `<tr><td colspan="7" class="left">Henüz talebin yok</td></tr>`;
+      html += `<tr><td colspan="8" class="left">Henüz talebin yok</td></tr>`;
     } else {
       myRequests.forEach((req) => {
+        // Oluşturma tarihi: backend'den "createdAt" varsa onu göster, yoksa boş
+        let tarih = '-';
+        if(req.createdAt) {
+          const d = new Date(req.createdAt);
+          tarih = d.toLocaleString('tr-TR');
+        }
         html += `<tr>
           <td class="left">${req.tedarikci || '-'}</td>
           <td>${req.projeKodu || '-'}</td>
@@ -226,6 +325,7 @@
           <td>${req.tutar || '-'}</td>
           <td>${req.status || 'Bekliyor'}</td>
           <td class="left">${req.aciklama || '-'}</td>
+          <td>${tarih}</td>
         </tr>`;
       });
     }
