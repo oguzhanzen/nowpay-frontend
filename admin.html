@@ -6,38 +6,44 @@
   <style>
     body { font-family: Helvetica, sans-serif; background: #111; color: white; padding: 20px; }
     button { padding: 10px 20px; border: none; border-radius: 5px; background: #5f27cd; color: white; cursor: pointer; }
-    ul { margin-top: 20px; }
-    li { margin-bottom: 10px; background: #222; padding: 10px; border-radius: 6px; }
+    table { margin-top: 20px; border-collapse: collapse; width: 100%; background: #222; border-radius: 10px; overflow: hidden; }
+    th, td { padding: 12px; border-bottom: 1px solid #333; }
+    th { background: #333; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: #2a2a2a; }
   </style>
 </head>
 <body>
   <h1>Admin Paneli</h1>
   <button onclick="getRequests()">Talepleri Göster</button>
-  <ul id="requestList"></ul>
+  <div id="tableArea"></div>
 
   <script>
     async function getRequests() {
-      try {
-        const res = await fetch('https://nowpay-backend.onrender.com/api/requests'); // Çoğul, GET için
-        if (!res.ok) {
-          alert('Bir hata oluştu: ' + res.status);
-          return;
-        }
-        const data = await res.json();
-        const list = document.getElementById('requestList');
-        list.innerHTML = '';
-        if (data.length === 0) {
-          list.innerHTML = '<li>Hiç talep yok.</li>';
-        } else {
-          data.forEach(req => {
-            const li = document.createElement('li');
-            li.textContent = JSON.stringify(req);
-            list.appendChild(li);
-          });
-        }
-      } catch (e) {
-        alert('Hata: ' + e);
+      const res = await fetch('https://nowpay-backend.onrender.com/api/requests');
+      const data = await res.json();
+      const tableArea = document.getElementById('tableArea');
+      if (!data.length) {
+        tableArea.innerHTML = '<p>Henüz talep yok.</p>';
+        return;
       }
+      let html = `<table>
+        <tr>
+          <th>#</th>
+          <th>Tedarikçi</th>
+          <th>IBAN</th>
+          <th>Tutar</th>
+        </tr>`;
+      data.forEach((req, idx) => {
+        html += `<tr>
+          <td>${idx + 1}</td>
+          <td>${req.tedarikci || '-'}</td>
+          <td>${req.iban || '-'}</td>
+          <td>${req.tutar || '-'}</td>
+        </tr>`;
+      });
+      html += `</table>`;
+      tableArea.innerHTML = html;
     }
   </script>
 </body>
