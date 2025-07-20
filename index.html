@@ -3,51 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>NowPay Giriş</title>
-  <style>
-    body { font-family: Helvetica, sans-serif; background: #1a1a1a; color: white; font-size: 13px; margin:0; }
-    main { min-height: 88vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    h1 { font-size: 20px; margin-top: 50px; }
-    form { display: flex; flex-direction: column; width: 250px; gap: 8px; margin: 24px auto; }
-    input, button { padding: 7px; border-radius: 4px; border: none; font-size: 13px;}
-    input { background: #333; color: white; }
-    button { background: #5f27cd; color: white; cursor: pointer; }
-    .header { width:100%; background:#181818; border-bottom:1px solid #444; display:flex; align-items:center; padding:8px 20px 8px 10px; box-sizing:border-box; position:sticky; top:0; z-index:10;}
-    .logo {height:30px; margin-right:16px;}
-    .header-title {flex:1; text-align:center; font-size:16px; font-weight:bold; letter-spacing:0.3px;}
-    .header-date {color:#aaa; font-size:12px; font-weight:normal; min-width:90px; text-align:right;}
-    footer {
-      width:100%; background:#222; color:#aaa; text-align:center; font-size:12px;
-      padding:12px 0; border-top:1px solid #333;
-      margin-top:40px;
-      position: sticky;
-      bottom: 0;
-    }
-  </style>
 </head>
 <body>
-<div class="header">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Now_logo.png" alt="Now" class="logo" id="now-logo">
-  <div class="header-title">NowPay Ödeme Talep ve Takip Sistemi</div>
-  <div id="header-date" class="header-date"></div>
-</div>
-<script>
-  function setDate() {
-    const d = new Date();
-    document.getElementById('header-date').innerText = d.toLocaleDateString('tr-TR');
-  }
-  setDate();
-  // İstersen logoyu değiştir: document.getElementById('now-logo').src = 'YENİ_LOGO_LINKİ';
-</script>
-
-<main>
-  <h1>NowPay Giriş</h1>
   <form id="loginForm">
     <input type="email" id="email" placeholder="E-posta" required />
     <input type="password" id="password" placeholder="Şifre" required />
     <button type="submit">Giriş Yap</button>
   </form>
-</main>
-
-<footer>
-  NowPay © 2024. Tüm hakları saklıdır. Webmaster: oguzhanzen
-</foo
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      alert("KOD ÇALIŞIYOR: Form submit edildi!");
+      try {
+        const res = await fetch('https://nowpay-backend.onrender.com/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        alert(JSON.stringify(data)); // DEBUG için
+        if (data.success) {
+          alert('Giriş başarılı! Rol: ' + data.role);
+          if (data.role === 'admin') {
+            window.location.href = 'admin.html';
+          } else {
+            localStorage.setItem('userEmail', email);
+            window.location.href = 'user.html';
+          }
+        } else {
+          alert('Hatalı giriş!');
+        }
+      } catch (err) {
+        alert("İstek sırasında hata oluştu: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
